@@ -68,6 +68,7 @@ public class MainHomeActivity extends YSActivity {
                     mTouchLinearLayout.setVisibility(View.INVISIBLE);
                     mTimer.cancel();
                     mTimer = null;
+                    mCurrentPage = 0;
                 }
             }
         });
@@ -81,7 +82,6 @@ public class MainHomeActivity extends YSActivity {
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//                System.out.println("OnPageScrolled");
             }
 
             @Override
@@ -93,6 +93,7 @@ public class MainHomeActivity extends YSActivity {
             public void onPageScrollStateChanged(int state) {
                 System.out.println("OnPageScroll State Changed");
                 if (mPager.getCurrentItem() == 1) {
+                    mCurrentPage = 1;
                     enableTouch = false;
                     mTouchLinearLayout.setVisibility(View.VISIBLE);
                     mTimer = new Timer(true);
@@ -141,14 +142,6 @@ public class MainHomeActivity extends YSActivity {
         }
         mPager.setCurrentItem(++mCurrentPage);
 
-    }
-
-    private void photoData(){
-        Iterator<String> keys = mFamilyPhotoMap.keySet().iterator();
-        while (keys.hasNext()) {
-            String key = keys.next();
-//            mImageAdapter.addSections(key, new FamilyImageViewAdapter(mFamilyPhotoMap.get(key)));
-        }
     }
 
     @Override
