@@ -4,10 +4,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import java.util.Iterator;
 import java.util.List;
@@ -15,13 +18,14 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import sympathyhome.iot.soma.smarthometabletapp.Data.YSDataUtil;
 import sympathyhome.iot.soma.smarthometabletapp.Fragment.AlbumPhotoFragment;
 import sympathyhome.iot.soma.smarthometabletapp.R;
 import sympathyhome.iot.soma.smarthometabletapp.Transformer.SlowViewPager;
 import sympathyhome.iot.soma.smarthometabletapp.Transformer.ZoomOutPageTransformer;
 import sympathyhome.iot.soma.smarthometabletapp.Fragment.WebviewSettingFragment;
 
-public class MainHomeActivity extends AppCompatActivity {
+public class MainHomeActivity extends YSActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,32 +35,42 @@ public class MainHomeActivity extends AppCompatActivity {
         initActivity();
     }
 
-    /**
-     * The number of pages (wizard steps) to show in this demo.
-     */
-    private static final int NUM_PAGES = 5;
+    private static final int NUM_PAGES = 11;
 
-    /**
-     * The pager widget, which handles animation and allows swiping horizontally to access previous
-     * and next wizard steps.
-     */
     private SlowViewPager mPager;
 
-    /**
-     * The pager adapter, which provides the pages to the view pager widget.
-     */
     private PagerAdapter mPagerAdapter;
 
     private int mCurrentPage;
 
     private Timer mTimer;
 
-    private final int mTimerDuration = 3000;
-    private final int mTimerStartDuration = 3000;
+    private final int mTimerDuration = 15000;
+    private final int mTimerStartDuration = 15000;
 
     private Map<String, List<String>> mFamilyPhotoMap;
 
+    private LinearLayout mTouchLinearLayout;
+    private boolean enableTouch = false;
+
     public void initActivity(){
+
+        mTouchLinearLayout = (LinearLayout) findViewById(R.id.activity_main_home_linearlayout);
+        mTouchLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(enableTouch){
+                    enableTouch = false;
+                }
+                else {
+                    enableTouch = true;
+                    mPager.setCurrentItem(0);
+                    mTouchLinearLayout.setVisibility(View.INVISIBLE);
+                    mTimer.cancel();
+                    mTimer = null;
+                }
+            }
+        });
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (SlowViewPager) findViewById(R.id.activity_main_home_pager);
@@ -64,6 +78,42 @@ public class MainHomeActivity extends AppCompatActivity {
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(1);
+        mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//                System.out.println("OnPageScrolled");
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                System.out.println("OnPageSelected");
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                System.out.println("OnPageScroll State Changed");
+                if (mPager.getCurrentItem() == 1) {
+                    enableTouch = false;
+                    mTouchLinearLayout.setVisibility(View.VISIBLE);
+                    mTimer = new Timer(true);
+
+                    mTimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    UpdateGUI();
+                                }
+                            });
+
+                        }
+                    }, mTimerStartDuration, mTimerDuration);
+                }
+                System.out.println("ChangeChange`");
+            }
+        });
+
 
         mTimer = new Timer(true);
 
@@ -128,12 +178,21 @@ public class MainHomeActivity extends AppCompatActivity {
      * sequence.
      */
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
+
+            for (int i = 0 ; i<mAlbumPhotoFragmentArray.length; i++){
+                mAlbumPhotoFragmentArray[i] = new AlbumPhotoFragment();
+                Bundle args = new Bundle();
+                args.putInt("image", i);
+                mAlbumPhotoFragmentArray[i].setArguments(args);
+            }
         }
 
         private Fragment mWebViewFragment = new WebviewSettingFragment();
-        private Fragment mAlbumPhotoFragment = new AlbumPhotoFragment();
+
+        private AlbumPhotoFragment [] mAlbumPhotoFragmentArray = new AlbumPhotoFragment[NUM_PAGES -1];
 
         private Map<String, List<String>> mFamilyPhotoMap;
 
@@ -147,13 +206,9 @@ public class MainHomeActivity extends AppCompatActivity {
             {
                 case 0:
                     return mWebViewFragment;
-                case 1:
-                    return mAlbumPhotoFragment;
 
                 default:
-                    AlbumPhotoFragment frame = new AlbumPhotoFragment();
-                    frame.changePhoto(position);
-                    return frame;
+                    return mAlbumPhotoFragmentArray[position-1];
             }
         }
 

@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="sympathyhome.iot.soma.smarthometabletapp" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,18 +13,6 @@
         <activity
             android:name=".Activity.MessageActivity"
             android:label="@string/title_activity_message" >
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main" >
-        </activity>
-        <activity
-            android:name=".AlbumPhotoActivity"
-            android:label="@string/title_activity_album_photo" >
-        </activity>
-        <activity
-            android:name=".MainScrollActivity"
-            android:label="@string/title_activity_main_scroll" >
         </activity>
         <activity
             android:name=".Activity.MainHomeActivity"

@@ -68,7 +68,7 @@ public class YSDataUtil {
 
     public int[] getPhotoDrawables(){
         int [] photo = {
-                R.drawable.autumn_04, R.drawable.autumn_02
+                R.drawable.autumn_04, R.drawable.autumn_02, R.drawable.autumn_03, R.drawable.autumn_06, R.drawable.autumn_10, R.drawable.autumn_09
         };
 
         return photo;

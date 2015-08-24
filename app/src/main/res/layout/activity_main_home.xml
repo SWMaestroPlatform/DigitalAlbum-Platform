@@ -13,7 +13,9 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="#01FFFFFF"
-        android:clickable="true">
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:id="@+id/activity_main_home_linearlayout">
     </LinearLayout>
 
 </RelativeLayout>

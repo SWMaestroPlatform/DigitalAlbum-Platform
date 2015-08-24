@@ -3,23 +3,51 @@
     android:layout_height="match_parent"
     tools:context="sympathyhome.iot.soma.smarthometabletapp.Fragment.AlbumPhotoFragment">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <!--<TextView style="?android:textAppearanceMedium"-->
-            <!--android:padding="16dp"-->
-            <!--android:lineSpacingMultiplier="1.2"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="aaaaaaaaaaa" />-->
-    </ScrollView>
-
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:src="@drawable/autumn_09"
         android:id="@+id/fragment_album_photo_imageview"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:id="@+id/fragment_album_photo_textlayout"
+        android:visibility="invisible">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"></LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="2"
+            android:background="#60000000">
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="가을 소풍"
+                    android:textSize="80dp"
+                    android:layout_marginTop="200dp"
+                    android:gravity="right"
+                    android:layout_marginRight="50dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2010년 10월\n남이섬에서\n즐거운 소풍"
+                    android:textSize="50dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="right"
+                    android:layout_marginRight="50dp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
 </FrameLayout>
