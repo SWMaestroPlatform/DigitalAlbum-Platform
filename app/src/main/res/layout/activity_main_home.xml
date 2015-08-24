@@ -1,0 +1,19 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="sympathyhome.iot.soma.smarthometabletapp.Activity.MainHomeActivity">
+
+    <sympathyhome.iot.soma.smarthometabletapp.Transformer.SlowViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/activity_main_home_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="false" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#01FFFFFF"
+        android:clickable="true">
+    </LinearLayout>
+
+</RelativeLayout>
